@@ -1,10 +1,26 @@
 const orm = require('../config/orm.js');
 
-// Create code to call ORM functions using burger specific input
 var burger = {
-    selectAll: function(){},
-    insertOne: function(){},
-    updateOne: function(){}
+    all: (callBack) =>{
+        orm.selectAll('burgers', (res) =>{
+            callBack(res);
+        });
+    },
+    create: (colum, value, callBack) =>{
+        orm.create('burgers', colum, value, (res) =>{
+            callBack(res);
+        });
+    },
+    update: (object, id, callBack) =>{
+        orm.update('burgers', object, id, (res) =>{
+            callBack(res);
+        });
+    },
+    delete: function(id, callBack) {
+        orm.delete("burgers", id, function(res) {
+          callBack(res);
+        });
+      }
 }
 
 module.exports = burger;

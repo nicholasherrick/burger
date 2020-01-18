@@ -3,9 +3,44 @@ const burger = require('../models/burger.js');
 
 const router = express.Router();
 
-// Create the router for export
-router.get("/", function(req, res) {});
-router.post("/api/burgers", function(req, res) {});
-router.put("/api/burgers/:id", function(req, res) {});
+router.get("/", (req, res) =>{
+    burger.all((data) =>{
+        var hbsObject = {
+            burgers: data
+        };
+        console.log(hbsObject);
+        res.render('index', hbsObject);
+    });
+});
+
+router.post("/api/burgers", (req, res) =>{
+    burger.create(['burger_name', 'devoured'], [req.body.burger_name, req.body.devoured], (result) =>{
+        res.json({id: result.insertId});
+    });
+});
+
+router.put('/api/burgers/:id', (req, res) =>{
+    var chosenId = 'id = ' + req.params.id;
+    console.log('chosenId', chosenId);
+    burger.update({
+        devoured: req.body.devoured
+    }, chosenId, (result) =>{
+        if(result.changedRows === 0){
+            return res.status(404).end();
+        }
+        res.status(200).end();
+    });
+});
+
+router.delete("/api/burgers/:id", function(req, res) {
+    var chosenId = "id = " + req.params.id;
+    burger.delete(chosenId, function(result) {
+      if (result.affectedRows == 0) {
+        return res.status(404).end();
+      } else {
+        res.status(200).end();
+      }
+    });
+  });
 
 module.exports = router;

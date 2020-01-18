@@ -1,4 +1,5 @@
 const mysql = require('mysql');
+// const dotenv = require('dotenv');
 
 const connection = mysql.createConnection({
     host: "localhost",
@@ -9,7 +10,7 @@ const connection = mysql.createConnection({
     database: "burgers_db"
 });
 
-connection.connect(function(err) {
+connection.connect((err) =>{
     if (err) {
       console.error("error connecting: " + err.stack);
       return;

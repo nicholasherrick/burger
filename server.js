@@ -16,5 +16,5 @@ app.set("view engine", "handlebars");
 app.use(routes);
 
 app.listen(PORT, () =>{
-    console.log('App listening on localhost:' + PORT);
+    console.log('Listening on localhost:' + PORT);
 });
